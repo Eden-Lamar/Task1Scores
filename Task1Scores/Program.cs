@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Data;
 
 namespace Task1Scores
 {
@@ -26,39 +25,39 @@ namespace Task1Scores
         {
             int testInPercent= 0;
 
-            if (score > 30 || score < 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("C.A SCORE CAN'T BE GREATER THAN 30 OR LESS THAN 0");
-                Console.ResetColor();
-            }
-            else
-            {
-                testInPercent = score;
+                if (score > 30 || score < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("C.A SCORE CAN'T BE GREATER THAN 30 OR LESS THAN 0");
+                    Console.ResetColor();
+                    throw new Exception();
+                }
+                else
+                {
+                    testInPercent = score;
+                }
 
-            }
+            
             return testInPercent;
 
         }
          static public int ExamScore(int score)
          {
-            int testInPercent = 0;
-            if (score > 70 || score < 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("EXAM SCORE CAN'T BE GREATER THAN 70 OR LESS THAN 0");
-                Console.ResetColor();
+            int examInPercent = 0;
 
-            }
-            else
-            {
-                testInPercent = score;
+                if (score > 70 || score < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("EXAM SCORE CAN'T BE GREATER THAN 70 OR LESS THAN 0");
+                    Console.ResetColor();
+                    throw new Exception();
+                }
+                else
+                {
+                    examInPercent = score;
 
-            }
-             return testInPercent;
-
-
-
+                }
+             return examInPercent;
 
          }
 
@@ -66,12 +65,13 @@ namespace Task1Scores
         {
             bool incorrect = true;
 
+            int studentVol = 0;
             ArrayList EndofTerm = new ArrayList();
             bool arrayLenght = true;
 
             while(incorrect){
-                int minInClass = 3;
-                int maxInClass = 4;
+                int minInClass = 30;
+                int maxInClass = 35;
 
                 try
                 {
@@ -79,8 +79,8 @@ namespace Task1Scores
                     Console.WriteLine("WELCOME TO FORCADOES HIGH SCHOOL");
                     Console.ResetColor();
 
-                    Console.WriteLine("Input the number of student in your class");
-                    int studentVol = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Input the number of students in your class");
+                    studentVol = Convert.ToInt32(Console.ReadLine());
 
                     if (studentVol >= minInClass && studentVol <= maxInClass)
                     {
@@ -88,24 +88,121 @@ namespace Task1Scores
                         {
                             if (EndofTerm.Count < studentVol)
                             {
-                                Console.WriteLine("Input Student Name");
-                                string studentName = Console.ReadLine();
+                              int exam = 0;
+                              int test = 0;
+                              if (EndofTerm.Count > 0)
+                              {
+                                    if (EndofTerm.Count == 1)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Blue;
+                                        Console.WriteLine($"({EndofTerm.Count} student saved) {EndofTerm.Count} of {studentVol} \n");
+                                        Console.ResetColor();
+                                    }
+                                    else
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Blue;
+                                        Console.WriteLine($"({EndofTerm.Count} students saved) {EndofTerm.Count} of {studentVol} \n");
+                                        Console.ResetColor();
+                                    }
+                              }
 
-                                Console.WriteLine($"Input {studentName} C.A Score");
-                                int studentCA = Convert.ToInt32(Console.ReadLine());
+                                string studentName;
 
-                                Console.WriteLine($"Input {studentName} Exam Score");
-                                int studentExam = Convert.ToInt32(Console.ReadLine());
-                                Console.Clear();
-                                int test = TestScore(studentCA);
-                                int exam = ExamScore(studentExam);
 
-                                float studTermScore = test + exam / 100f * 100;
+                                while (true)
+                                {
+                                  Console.WriteLine("Input Student's Name");
+                                  studentName = Console.ReadLine();
+                                    if (string.IsNullOrEmpty(studentName) || studentName == " ")
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("Student Name can't be empty!");
+                                        Console.ResetColor();
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
 
-                                // string studFinalSocre = $"{studentName} is {studTermScore}%";
+                                }
 
-                                EndofTerm.Add(new Student(studentName, (int)studTermScore));
 
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        Console.WriteLine($"\nInput {studentName} C.A Score");
+                                        int numb;
+
+                                        while (true)
+                                        {
+                                            string studentCA = Console.ReadLine();
+                                            if (int.TryParse(studentCA, out numb))
+                                            {
+                                               test = TestScore(numb);
+                                               break;
+
+                                            }
+                                            else
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("Input Must be a Number");
+                                                Console.ResetColor();
+                                            }
+
+                                        }
+                                        
+                                    }
+                                    catch (Exception)
+                                    {
+                                        continue;
+                                    }
+
+
+
+                                    while (true)
+                                    {
+                                        try
+                                        {
+                                            Console.WriteLine($"\nInput {studentName} Exam Score");
+                                            int numb2;
+                                            while (true)
+                                            {
+                                                string studentExam = Console.ReadLine();
+                                                if (int.TryParse(studentExam, out numb2))
+                                                {
+                                                    exam = ExamScore(numb2);
+                                                    break;
+
+                                                }
+                                                else
+                                                {
+                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                    Console.WriteLine("Input Must be a Number");
+                                                    Console.ResetColor();
+
+                                                }
+
+                                            }
+                                            break;
+
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            continue;
+                                        }
+
+                                    }
+
+
+                                        Console.Clear();
+  
+                                        float studTermScore = test + exam / 100f * 100;
+
+                                        EndofTerm.Add(new Student(studentName, (int)studTermScore));
+                                        break;
+                                }
 
                             }
                             else if (EndofTerm.Count == studentVol)
@@ -143,6 +240,10 @@ namespace Task1Scores
 
             EndofTerm.Sort(new myComparer());
 
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"({EndofTerm.Count} students saved) {EndofTerm.Count} of {studentVol} \n");
+            Console.ResetColor();
+
             int positionIndex = 0;
             foreach (Student item in EndofTerm)
             {
@@ -169,9 +270,6 @@ namespace Task1Scores
             }
 
         }
-
-
-
 
 
 
